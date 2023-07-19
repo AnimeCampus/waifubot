@@ -1,1 +1,1 @@
-worker: python -m quiz
+worker: python -m Hero
