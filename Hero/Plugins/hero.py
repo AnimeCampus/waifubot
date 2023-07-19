@@ -30,6 +30,8 @@ message_counts = {}
 # Dictionary to store the current character for each chat group
 active_character = {}
 
+active_characrter_count = {}
+
 
 async def send_picture(chat_id, character_url):
     try:
@@ -46,10 +48,11 @@ async def send_picture(chat_id, character_url):
 async def is_correct_name(chat_id, character_name):
     character_name = character_name.lower()
     correct_name = active_character[chat_id][1]
-    if character_name == correct_name:
-        return True
+    names = correct_name.split(" ")
+    if character_name in names:
+        return True, correct_name
     else:
-        return False
+        return False, correct_name
 
 
 # Message handler
@@ -59,18 +62,31 @@ async def message_handler(client, message):
 
     # Check if the chat group has an active character to collect
     if chat_id in active_character:
+        # Initialize the message count for the group if not already present
+        if chat_id not in active_characrter_count:
+            active_characrter_count[chat_id] = 0
+
+        # Increment the message count for the group
+        active_characrter_count[chat_id] += 1
+
+        # Check if the message count has reached 100
+        if active_characrter_count[chat_id] % 10 == 0:
+            await client.send_message(chat_id, f"character flew away!!\nCorrect name was {active_character[chat_id][1]}")
+            del active_character[chat_id]
+            del active_characrter_count[chat_id]
+            return 
+          
         if message.text and message.text.startswith("/collect"):
             command, character_name = message.text.split(maxsplit=1)
 
-            answer_c = await is_correct_name(chat_id, character_name)
+            answer_c, correct_name = await is_correct_name(chat_id, character_name)
             
             if answer_c == True:
-                await pbot.send_message(chat_id, f"Correct! You collected {character_name}!")
+                await pbot.send_message(chat_id, f"Correct!!!!\nYou collected {correct_name}!")
+                del active_character[chat_id]
+                del active_characrter_count[chat_id]
             else:
                 await pbot.send_message(chat_id, f"Wrong name!!")
-
-            # Remove the current character from the chat group
-            del active_character[chat_id]
 
     else:
         # Initialize the message count for the group if not already present
