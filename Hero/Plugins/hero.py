@@ -33,10 +33,3 @@ async def message_handler(client, message):
         await send_message(chat_id, "Congratulations! You've sent 10 messages in this group.")
         del message_counts[chat_id]
 
-# Run the bot
-async def main():
-    await app.start()
-    await app.idle()
-
-if __name__ == "__main__":
-    asyncio.run(main())
