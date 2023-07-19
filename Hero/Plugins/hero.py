@@ -2,34 +2,93 @@ import asyncio
 import random
 from pyrogram import Client, filters
 from Hero import pbot
+import requests
+
+token = "803115424842504"
+
+url = f"https://superheroapi.com/api/{token}/245/image"
+
+
+async def get_character(): 
+    random_number = random.randint(1, 731)
+    newurl = url + random_number + "/image"
+    r = requests.get(newurl)
+    char_obj = r.json()
+    character_list = []
+    character_list.append(char_obj["id"])
+    name = char_obj["name"]
+    name = name.lower()
+    character_list.append(name)
+    character_list.append(char_obj["url"])
+    return character_list
 
 
 # Dictionary to store message counts for each chat group
 message_counts = {}
 
-# Function to send a message in a group
-async def send_message(chat_id, text):
-    await pbot.send_message(chat_id, text)
+# Dictionary to store the current character for each chat group
+active_character = {}
 
-# Function to send a picture in a group
-async def send_picture(chat_id, file_id):
-    await pbot.send_photo(chat_id, file_id)
+
+async def send_picture(chat_id, character_url):
+    try:
+        await pbot.send_photo(
+            chat_id=chat_id,
+            photo=character_url,
+            caption=f"A character has appeared, collect it by giving the correct name using /collect command"
+        )
+        return True
+    except:
+        return False
+
+
+async def is_correct_name(chat_id, character_name):
+    character_name = character_name.lower()
+    return character_name.lower() == active_character[chat_id][1].lower()
+
 
 # Message handler
 @Client.on_message(filters.group)
 async def message_handler(client, message):
     chat_id = message.chat.id
 
-    # Initialize the message count for the group if not already present
-    if chat_id not in message_counts:
-        message_counts[chat_id] = 0
+    # Check if the chat group has an active character to collect
+    if chat_id in current_character:
+        if message.text and message.text.startswith("/collect"):
+            command, character_name = message.text.split(maxsplit=1)
+            if is_correct_name(chat_id, character_name):
+                await pbot.send_message(chat_id, f"Correct! You collected {photo_dict[current_character[chat_id]][1]}!")
+            else:
+                await pbot.send_message(chat_id, f"Wrong name! The character was {photo_dict[current_character[chat_id]][1]}!")
 
-    # Increment the message count for the group
-    message_counts[chat_id] += 1
+            # Remove the current character from the chat group
+            del current_character[chat_id]
 
-    # Check if the message count has reached 100
-    if message_counts[chat_id] % 10 == 0:
-        # Send a message with a picture (you can replace with your own picture logic)
-        await send_message(chat_id, "Congratulations! You've sent 10 messages in this group.")
-        del message_counts[chat_id]
+    else:
+        # Initialize the message count for the group if not already present
+        if chat_id not in message_counts:
+            message_counts[chat_id] = 0
 
+        # Increment the message count for the group
+        message_counts[chat_id] += 1
+
+        # Check if the message count has reached 100
+        if message_counts[chat_id] % 10 == 0:
+
+            # Send a message with a picture
+            character = get_character()
+            result = await send_picture(chat_id, character[2])
+            if result == False:
+                character = get_character()
+                result = await send_picture(chat_id, character[2])
+                if result == False:
+                    character = get_character()
+                    result = await send_picture(chat_id, character[2])
+                    if result == False:
+                        pass
+                    else:
+                        active_character[chat_id] = [character[0], character[1], character[2]]
+                else:
+                    active_character[chat_id] = [character[0], character[1], character[2]]
+            else:
+                active_character[chat_id] = [character[0], character[1], character[2]]
