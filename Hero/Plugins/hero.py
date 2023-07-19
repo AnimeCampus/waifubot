@@ -12,7 +12,7 @@ url = f"https://superheroapi.com/api/{token}/"
 
 async def get_character(): 
     random_number = random.randint(1, 731)
-    newurl = url + random_number + "/image"
+    newurl = url + f"{random_number}" + "/image"
     r = requests.get(newurl)
     char_obj = r.json()
     character_list = []
