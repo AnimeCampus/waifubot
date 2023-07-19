@@ -4,9 +4,10 @@ from pyrogram import Client, filters
 from Hero import pbot
 import requests
 
+
 token = "803115424842504"
 
-url = f"https://superheroapi.com/api/{token}/245/image"
+url = f"https://superheroapi.com/api/{token}/"
 
 
 async def get_character(): 
@@ -44,7 +45,11 @@ async def send_picture(chat_id, character_url):
 
 async def is_correct_name(chat_id, character_name):
     character_name = character_name.lower()
-    return character_name.lower() == active_character[chat_id][1].lower()
+    correct_name = active_character[chat_id][1]
+    if character_name == correct_name:
+        return True
+    else:
+        return False
 
 
 # Message handler
@@ -53,16 +58,19 @@ async def message_handler(client, message):
     chat_id = message.chat.id
 
     # Check if the chat group has an active character to collect
-    if chat_id in current_character:
+    if chat_id in active_character:
         if message.text and message.text.startswith("/collect"):
             command, character_name = message.text.split(maxsplit=1)
-            if is_correct_name(chat_id, character_name):
-                await pbot.send_message(chat_id, f"Correct! You collected {photo_dict[current_character[chat_id]][1]}!")
+
+            answer_c = await is_correct_name(chat_id, character_name)
+
+            if answer_c == True:
+                await pbot.send_message(chat_id, f"Correct! You collected {character_name}!")
             else:
-                await pbot.send_message(chat_id, f"Wrong name! The character was {photo_dict[current_character[chat_id]][1]}!")
+                await pbot.send_message(chat_id, f"Wrong name! The character was {character_name}!")
 
             # Remove the current character from the chat group
-            del current_character[chat_id]
+            del active_character[chat_id]
 
     else:
         # Initialize the message count for the group if not already present
@@ -76,7 +84,7 @@ async def message_handler(client, message):
         if message_counts[chat_id] % 10 == 0:
 
             # Send a message with a picture
-            character = get_character()
+            character = await get_character()
             result = await send_picture(chat_id, character[2])
             if result == False:
                 character = get_character()
