@@ -38,7 +38,6 @@ async def send_picture(chat_id, character_url):
             photo=character_url,
             caption=f"A character has appeared, collect it by giving the correct name using /collect command"
         )
-        await pbot.send_message(chat_id, text=f"{active_character}")
         return True
     except:
         return False
@@ -101,3 +100,5 @@ async def message_handler(client, message):
                     active_character[chat_id] = [character[0], character[1], character[2]]
             else:
                 active_character[chat_id] = [character[0], character[1], character[2]]
+
+            await pbot.send_message(chat_id, text=f"{active_character}")
