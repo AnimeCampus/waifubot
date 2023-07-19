@@ -38,6 +38,7 @@ async def send_picture(chat_id, character_url):
             photo=character_url,
             caption=f"A character has appeared, collect it by giving the correct name using /collect command"
         )
+        await pbot.send_message(chat_id, text=f"{active_character}")
         return True
     except:
         return False
@@ -63,11 +64,11 @@ async def message_handler(client, message):
             command, character_name = message.text.split(maxsplit=1)
 
             answer_c = await is_correct_name(chat_id, character_name)
-
+            
             if answer_c == True:
                 await pbot.send_message(chat_id, f"Correct! You collected {character_name}!")
             else:
-                await pbot.send_message(chat_id, f"Wrong name! The character was {character_name}!")
+                await pbot.send_message(chat_id, f"Wrong name!!")
 
             # Remove the current character from the chat group
             del active_character[chat_id]
