@@ -35,7 +35,7 @@ StartTime = time.time()
 # enable logging
 FORMAT = "[HERO] %(message)s"
 logging.basicConfig(
-    handlers=[logging.FileHandler("botlogs.txt"), logging.StreamHandler()],
+    handlers=[logging.FileHandler("logs.txt"), logging.StreamHandler()],
     level=logging.INFO,
     format=FORMAT,
     datefmt="[%X]",
