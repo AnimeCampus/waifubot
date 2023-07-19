@@ -42,7 +42,7 @@ Client(
     workdir=DOWNLOAD_DIRECTORY,
     sleep_threshold=60,
     in_memory=True,
-    plugins={"root": "Hero.plugins"},
+    plugins={"root": "Hero.Plugins"},
 ).start()
 
 idle()
