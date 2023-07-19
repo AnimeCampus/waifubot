@@ -14,7 +14,7 @@ async def load_start():
     try:
         aa = random.randint(1, 9)
         await pbot.send_message(
-            int(SUPPORT_ID), f"quiz UP!!\nTime taken: 0.{aa}"
+            int(SUPPORT_ID), f"hero is UP!!\nTime taken: 0.{aa}"
         )
 
         g = await pbot.send_message(ERROR_ID, f"Pyrogram Client Started Successfully!!")
