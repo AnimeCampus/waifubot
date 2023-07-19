@@ -10,9 +10,9 @@ API_ID = 14681826  # Your API ID
 API_HASH = "add59ab14dbbccf3c92c65ca4477f2fa"  # Your API Hash
 BOT_TOKEN = "6306432952:AAFe2CTLQDY7VVvuY9yRKm0FU7kXTgdAutY"  # Your bot token
 
-ERROR_ID = -1001552477173 #private -- Blue Errors log
+ERROR_ID = -1001773407390 #private -- Blue Errors log
 SUPPORT_CHAT = "devslab"
-SUPPORT_ID = -1001856564943 #devslab
+SUPPORT_ID = -1001773407390 #devslab
 
 DOWNLOAD_DIRECTORY = "./"
 
