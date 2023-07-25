@@ -2,7 +2,7 @@ import asyncio
 import random
 from pyrogram import Client, filters
 from Hero import pbot
-from Hero.database import udb
+from Hero.database.basicdb import addhero
 import requests
 
 
@@ -49,11 +49,12 @@ async def send_picture(chat_id, character_url):
 async def is_correct_name(chat_id, character_name):
     character_name = character_name.lower()
     correct_name = active_character[chat_id][1]
+    hero_id = active_character[chat_id][0]
     names = correct_name.split(" ")
     if character_name in names:
-        return True, correct_name
+        return True, correct_name, hero_id
     else:
-        return False, correct_name
+        return False, correct_name, hero_id
 
 
 # Message handler
@@ -78,13 +79,14 @@ async def message_handler(client, message):
             return 
           
         if message.text and message.text.startswith("/collect"):
+            user_id = message.from_user.id
             command, character_name = message.text.split(maxsplit=1)
 
-            answer_c, correct_name = await is_correct_name(chat_id, character_name)
+            answer_c, correct_name, hero_id = await is_correct_name(chat_id, character_name)
             
             if answer_c == True:
+                addhero(user_id, hero_id)
                 await pbot.send_message(chat_id, f"Correct!!!!\nYou collected {correct_name}!")
-                udb.ins
                 del active_character[chat_id]
                 del active_characrter_count[chat_id]
             else:
