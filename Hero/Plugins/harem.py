@@ -35,8 +35,8 @@ async def harem_grp(client, message):
     count = 0
     for hero in data:
         count = count + 1
-        hero_id = hero
-        hero_name = await get_character(hero_id)
-        text += f"{count}. {hero_id}\n-> {hero_name}"
+        hero_id = hero[0]
+        hero_name = hero[1]
+        text += f"**{count}.** `{hero_id}`\n-> {hero_name}\n"
     
     await message.reply_text(text)
