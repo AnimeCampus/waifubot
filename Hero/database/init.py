@@ -1,17 +1,13 @@
 from pymongo import MongoClient
 
-from Hackia import MONGO_DB
+from Hero import MONGO_DB
 
 
 client = MongoClient(MONGO_DB)
 
-db = client["Hackia"]
+db = client["herodb"]
 
-udb = db["users_db"]
-#gdb = db["groups_db"]
-#fban_db = db["fban_db"]
-misc_db = db["misc_db"]
-event_db = db["event_db"]
+udb = db["userdb"]
 
 
 def get_user_list():
