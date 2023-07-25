@@ -85,7 +85,7 @@ async def message_handler(client, message):
             answer_c, correct_name, hero_id = await is_correct_name(chat_id, character_name)
             
             if answer_c == True:
-                addhero(user_id, hero_id)
+                addhero(user_id, hero_id, correct_name)
                 await pbot.send_message(chat_id, f"Correct!!!!\nYou collected {correct_name}!")
                 del active_character[chat_id]
                 del active_characrter_count[chat_id]
