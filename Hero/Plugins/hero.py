@@ -2,6 +2,7 @@ import asyncio
 import random
 from pyrogram import Client, filters
 from Hero import pbot
+from Hero.database import udb
 import requests
 
 
@@ -83,6 +84,7 @@ async def message_handler(client, message):
             
             if answer_c == True:
                 await pbot.send_message(chat_id, f"Correct!!!!\nYou collected {correct_name}!")
+                udb.ins
                 del active_character[chat_id]
                 del active_characrter_count[chat_id]
             else:
