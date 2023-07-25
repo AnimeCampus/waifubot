@@ -2,7 +2,7 @@ import asyncio
 import random
 from pyrogram import Client, filters
 from Hero import pbot
-from Hero.database.basicdb import addhero
+from Hero.database.basicdb import info
 import requests
 
 
