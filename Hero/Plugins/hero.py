@@ -107,10 +107,10 @@ async def message_handler(client, message):
             character = await get_character()
             result = await send_picture(chat_id, character[2])
             if result == False:
-                character = get_character()
+                character = await get_character()
                 result = await send_picture(chat_id, character[2])
                 if result == False:
-                    character = get_character()
+                    character = await get_character()
                     result = await send_picture(chat_id, character[2])
                     if result == False:
                         pass
