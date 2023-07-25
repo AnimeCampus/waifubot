@@ -9,20 +9,20 @@ def register(user_id):
     udb.insert_one(udb_dict)
 
 
-def adduser(user_id, heroid):
+def adduser(user_id, heroid, hero_name):
     udb_dict = {
         "_id": user_id,
-        "heros": [heroid]
+        "heros": [[heroid, hero_name]]
     }
     udb.insert_one(udb_dict)
 
 
-def addhero(user_id, heroid):
+def addhero(user_id, heroid, hero_name):
     data = udb.find_one({"_id": user_id})
     if data:
-        udb.update_one({"_id": user_id}, {"$push": {"heros": heroid}})
+        udb.update_one({"_id": user_id}, {"$push": {"heros": [heroid, hero_name]}})
     else:
-        adduser(user_id, heroid)
+        adduser(user_id, heroid, hero_name)
 
 
 def info(user_id):
