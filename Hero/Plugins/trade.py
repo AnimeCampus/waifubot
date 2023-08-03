@@ -7,7 +7,7 @@ import requests
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
-@Client.on_message(filters.command("trade"))
+@pbot.on_message(filters.command("trade"))
 async def trade_grp(client, message):
     user_id = message.from_user.id
     await message.reply_text("Hmm")
@@ -41,7 +41,7 @@ async def trade_grp(client, message):
 
 
 
-@Client.on_callback_query(filters.regex(r"^yess"))
+@pbot.on_callback_query(filters.regex(r"^yess"))
 async def yess_callbacc(client, CallbackQuery):
     alldata = CallbackQuery.data.split("=")
     
