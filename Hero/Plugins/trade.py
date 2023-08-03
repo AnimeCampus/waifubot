@@ -58,3 +58,9 @@ async def yess_callbacc(client, CallbackQuery):
     )
     trade(hero1, heroname1, user_id, hero2, heroname2, trade_partner_id)
 
+
+@Client.on_callback_query(filters.regex("noo"))
+async def nooo_callbacc(client, CallbackQuery):
+    await CallbackQuery.message.edit_caption(
+        "Trade cancelled!!"
+    )
