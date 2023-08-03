@@ -4,6 +4,7 @@ from pyrogram import Client, filters
 from Hero import pbot
 from Hero.database.basicdb import info
 import requests
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 token = "803115424842504"
@@ -41,5 +42,9 @@ async def harem_grp(client, message):
     
     await message.reply_text(
         text,
-        reply_markup=
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [InlineKeyboardButton(text="add fav", callback_data="add_fav")]
+            ]
+        )
     )
