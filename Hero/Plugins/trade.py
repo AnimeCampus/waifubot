@@ -10,40 +10,34 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 @Client.on_message(filters.command("trade"))
 async def trade_grp(client, message):
     user_id = message.from_user.id
-    
-    
-    if message.reply_to_message:
-        reply = message.reply_to_message
+    await message.reply_text("Hmm")
 
-        try:
-            heroes = message.split(None, 1)[1]
-            hero1 = heroes.split(" ")[0]
-            hero2 = heroes.split(" ")[1]
-        except:
-            return await message.reply_text(
-                "Wrong format!!\n: /trade (hero id that you want to give) (hero id that you want to get)"
-            )
-
-        trade_partner_id = reply.from_user.id
-        valid1, heroname1 = checktrade(hero1, user_id)
-        if valid == False:
-            return await message.reply_text("You dont have that hero to trade!!")
-        valid2, heroname2 = checktrade(hero2, trade_partner_id)
-        if valid2 == False:
-            return await message.reply_text("Your trade partner dont have that hero to trade!!")
-
-        await message.reply_text(
-            f"Are you sure you want to trade:\n{heroname1} for {heroname2}",
-            reply_markup=InlineKeyboardMarkup(
-                [
-                    [InlineKeyboardButton(text="Yes", callback_data=f"yess={hero1}={heroname1}={user_id}={hero2}={heroname2}={trade_partner_id}")],
-                    [InlineKeyboardButton(text="No", callback_data="noo")]
-                ]
-            )
+    try:
+        heroes = message.split(None, 1)[1]
+        hero1 = heroes.split(" ")[0]
+        hero2 = heroes.split(" ")[1]
+    except:
+        return await message.reply_text(
+            "Wrong format!!\n: /trade (hero id that you want to give) (hero id that you want to get)"
         )
-    else:
-        await message.reply_text("Please reply to someone to trade")
-        return
+
+    trade_partner_id = reply.from_user.id
+    valid1, heroname1 = checktrade(hero1, user_id)
+    if valid == False:
+        return await message.reply_text("You dont have that hero to trade!!")
+    valid2, heroname2 = checktrade(hero2, trade_partner_id)
+    if valid2 == False:
+        return await message.reply_text("Your trade partner dont have that hero to trade!!")
+
+    await message.reply_text(
+        f"Are you sure you want to trade:\n{heroname1} for {heroname2}",
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [InlineKeyboardButton(text="Yes", callback_data=f"yess={hero1}={heroname1}={user_id}={hero2}={heroname2}={trade_partner_id}")],
+                [InlineKeyboardButton(text="No", callback_data="noo")]
+            ]
+        )
+    )
 
 
 
