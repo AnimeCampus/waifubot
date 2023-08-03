@@ -34,3 +34,5 @@ def info(user_id):
         register(user_id)
         return False
 
+
+def addfav(user_id, hero_id):
