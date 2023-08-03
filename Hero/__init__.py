@@ -16,7 +16,7 @@ SUPPORT_ID = -1001773407390 #devslab
 
 DOWNLOAD_DIRECTORY = "./"
 
-DB_URI = "postgres://cugocwks:jgpqMTLw2rO6KMwnWDL6kAXwmaVMB1qW@john.db.elephantsql.com/cugocwks"
+#DB_URI = "postgres://cugocwks:jgpqMTLw2rO6KMwnWDL6kAXwmaVMB1qW@john.db.elephantsql.com/cugocwks"
 MONGO_DB = "mongodb+srv://ishikki:ishikki143@userinfo.qud86ys.mongodb.net/?retryWrites=true&w=majority"
 
 
