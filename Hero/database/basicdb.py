@@ -37,3 +37,22 @@ def info(user_id):
 
 def addfav(user_id, hero_id):
     hm = 2
+
+
+def checktrade(hero_id, user_id):
+    data = udb.find_one({"_id": user1})
+    if data:
+        heroes = data["heros"]
+        for i in heroes:
+            if hero_id in i:
+                return True, i[1]
+    
+    return False, None
+
+
+def trade(hero1, heroname1, user1, hero2, heroname2, user2):
+    udb.update_one({"_id": user1}, {"$push": {"heros": [hero2, heroname2]}})
+    udb.update_one({"_id": user2}, {"$push": {"heros": [hero1, heroname1]}})
+    
+    udb.update_one({"_id": user1}, {"$pull": {"heros": [hero1, heroname1]}})
+    udb.update_one({"_id": user2}, {"$pull": {"heros": [hero2, heroname2]}})
