@@ -36,3 +36,4 @@ def info(user_id):
 
 
 def addfav(user_id, hero_id):
+    hm = 2
