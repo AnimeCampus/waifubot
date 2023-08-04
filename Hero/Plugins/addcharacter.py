@@ -7,6 +7,7 @@ from Hero.database.uploaddb import upload_waifu, upload_anime, upload_husbando
 from Hero.database import cwdb, chdb, adb, get_list
 
 import requests
+from io import BytesIO
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
