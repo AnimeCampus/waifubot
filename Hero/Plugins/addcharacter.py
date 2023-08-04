@@ -51,4 +51,4 @@ async def add_anime_characater(client, message):
         return await message.reply_text("format:\n`/addanime (anime id) (name)`")
     
     upload_anime(anime_id, name)
-    await message.reply_text(f"Done!!\nID: {waifu_id}\nName: {waifu_name}\nUrl: `{url}`\nAnime ID: {anime_id}")
+    await message.reply_text(f"Done!!\nID: {anime_id}\nName: {name}")
