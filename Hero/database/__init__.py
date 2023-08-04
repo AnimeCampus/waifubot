@@ -12,8 +12,9 @@ udb = db["userdb"]
 
 character_db = MongoClient(MONGO_DB1)
 
-cdb = client["characterdb"]["waifudb"]
-
+cwdb = client["characterdb"]["waifudb"]
+chdb = client["characterdb"]["husbandodb"]
+adb = client["characterdb"]["animedb"]
 
 
 def get_user_list():
