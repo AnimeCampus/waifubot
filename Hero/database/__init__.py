@@ -17,6 +17,6 @@ chdb = client["characterdb"]["husbandodb"]
 adb = client["characterdb"]["animedb"]
 
 
-def get_user_list():
-    return [x for x in udb.find()]
+def get_list(db):
+    return [x for x in db.find()]
 
