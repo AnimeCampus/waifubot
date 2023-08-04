@@ -16,10 +16,10 @@ async def add_waifu_characater(client, message):
     try:
         text = message.text.split(None, 1)[1]
         splitted = text.split(" ")
-        url = splitted[0]
-        name = splitted[1]
-        waifu_id = splitted[2]
-        anime_id = text.split(None, 1)[1].split(None, 1)[1].split(None, 1)[1]
+        url = splitted[2]
+        anime_id = splitted[1]
+        waifu_id = splitted[0]
+        name = text.split(None, 1)[1].split(None, 1)[1].split(None, 1)[1]
     except:
         return await message.reply_text("format:\n`/addw (waifu id) (anime id) (url) (name)`")
     
@@ -32,12 +32,12 @@ async def add_husbando_characater(client, message):
     try:
         text = message.text.split(None, 1)[1]
         splitted = text.split(" ")
-        url = splitted[0]
-        name = splitted[1]
-        waifu_id = splitted[2]
-        anime_id = splitted[3]
+        url = splitted[2]
+        anime_id = splitted[1]
+        waifu_id = splitted[0]
+        name = text.split(None, 1)[1].split(None, 1)[1].split(None, 1)[1]
     except:
-        return await message.reply_text("format:\n`/addh (url) (name) (waifu id) (anime id)`")
+        return await message.reply_text("format:\n`/addh (husbando id) (anime id) (url) (name)`")
     
     upload_husbando(url, waifu_id, name, anime_id)
     await message.reply_text(f"Done!!\nID: {waifu_id}\nName: {waifu_name}\nUrl: `{url}`\nAnime ID: {anime_id}")
@@ -49,7 +49,7 @@ async def add_anime_characater(client, message):
         text = message.text.split(None, 1)[1]
         splitted = text.split(" ")
         anime_id = splitted[0]
-        name = splitted[1]
+        name = text.split(None, 1)[1]
     except:
         return await message.reply_text("format:\n`/addanime (anime id) (name)`")
     
