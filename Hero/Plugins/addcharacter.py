@@ -19,9 +19,9 @@ async def add_waifu_characater(client, message):
         url = splitted[0]
         name = splitted[1]
         waifu_id = splitted[2]
-        anime_id = splitted[3]
+        anime_id = text.split(None, 1)[1].split(None, 1)[1].split(None, 1)[1]
     except:
-        return await message.reply_text("format:\n`/addw (url) (name) (waifu id) (anime id)`")
+        return await message.reply_text("format:\n`/addw (waifu id) (anime id) (url) (name)`")
     
     upload_waifu(url, waifu_id, name, anime_id)
     await message.reply_text(f"Done!!\nID: {waifu_id}\nName: {waifu_name}\nUrl: `{url}`\nAnime ID: {anime_id}")
