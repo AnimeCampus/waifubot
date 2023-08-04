@@ -10,7 +10,10 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 @pbot.on_message(filters.command("trade"))
 async def trade_grp(client, message):
     user_id = message.from_user.id
-    await message.reply_text("Hmm")
+    reply = message.reply_to_message
+
+    if not reply:
+        return await message.reply_text("reply to someone")
 
     try:
         heroes = message.split(None, 1)[1]
