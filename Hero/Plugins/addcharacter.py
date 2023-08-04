@@ -4,6 +4,8 @@ import random
 from pyrogram import Client, filters
 from Hero import pbot
 from Hero.database.uploaddb import upload_waifu, upload_anime, upload_husbando
+from Hero.database import cwdb, chdb, adb, get_list
+
 import requests
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
@@ -52,3 +54,86 @@ async def add_anime_characater(client, message):
     
     upload_anime(anime_id, name)
     await message.reply_text(f"Done!!\nID: {anime_id}\nName: {name}")
+
+
+
+@Client.on_message(filters.command("animelist"))
+async def animelist(client, message):
+
+    listt = get_list(adb)
+    
+    if not listt:
+        await message.reply_text(
+            "ɴᴏʙᴏᴅʏ ɪs ʀᴇɢɪsᴛᴇʀᴇᴅ ɪɴ ʏᴏᴜʀ ʙᴏᴛ\n(⁠⌐⁠■⁠-⁠■⁠)"
+        )
+        return
+
+    ffile = "Anime\n"
+    ffile = "[x] - ɪᴅ - ɴᴀᴍᴇ\n"
+    x = 0
+    for obj in listt:
+        x = x + 1
+        ffile += f"[{x}] {obj['_id']} - {obj['name']}\n"
+
+    with BytesIO(str.encode(ffile)) as output:
+        output.name = "animelist.txt"
+        await message.reply_document(
+            document=output,
+            file_name="animelist.txt",
+            caption="ʜᴇʀᴇ ɪs ᴛʜᴇ ʟɪsᴛ",
+        )
+
+
+@Client.on_message(filters.command("waifulist"))
+async def waifulist(client, message):
+
+    listt = get_list(cwdb)
+    
+    if not listt:
+        await message.reply_text(
+            "ɴᴏʙᴏᴅʏ ɪs ʀᴇɢɪsᴛᴇʀᴇᴅ ɪɴ ʏᴏᴜʀ ʙᴏᴛ\n(⁠⌐⁠■⁠-⁠■⁠)"
+        )
+        return
+
+    ffile = "Waifu\n"
+    ffile = "[x] - ɪᴅ - ɴᴀᴍᴇ - anime id - waifu url\n"
+    x = 0
+    for obj in listt:
+        x = x + 1
+        ffile += f"[{x}] {obj['_id']} - {obj['name']} - {obj['anime_id']} - {obj['img']}\n"
+
+    with BytesIO(str.encode(ffile)) as output:
+        output.name = "waifulist.txt"
+        await message.reply_document(
+            document=output,
+            file_name="waifulist.txt",
+            caption="ʜᴇʀᴇ ɪs ᴛʜᴇ ʟɪsᴛ",
+        )
+
+
+@Client.on_message(filters.command("husbandolist"))
+async def husbandolist(client, message):
+
+    listt = get_list(chdb)
+    
+    if not listt:
+        await message.reply_text(
+            "ɴᴏʙᴏᴅʏ ɪs ʀᴇɢɪsᴛᴇʀᴇᴅ ɪɴ ʏᴏᴜʀ ʙᴏᴛ\n(⁠⌐⁠■⁠-⁠■⁠)"
+        )
+        return
+
+    ffile = "Husbando\n"
+    ffile = "[x] - ɪᴅ - ɴᴀᴍᴇ - anime id - husbando url\n"
+    x = 0
+    for obj in listt:
+        x = x + 1
+        ffile += f"[{x}] {obj['_id']} - {obj['name']} - {obj['anime_id']} - {obj['img']}\n"
+
+    with BytesIO(str.encode(ffile)) as output:
+        output.name = "husbandolist.txt"
+        await message.reply_document(
+            document=output,
+            file_name="husbandolist.txt",
+            caption="ʜᴇʀᴇ ɪs ᴛʜᴇ ʟɪsᴛ",
+        )
+
