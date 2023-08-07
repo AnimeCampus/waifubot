@@ -1,17 +1,15 @@
 import asyncio
 import random
 from pyrogram import Client, filters
-from Hero import pbot, TOTAL_ANIME
+from Hero import pbot
 from Hero.database.basicdb import addhero
 from Hero.database.characterdb import get_char
+from Hero.database import adb
 import requests
 import random
 
 
-token = "803115424842504"
-
-url = f"https://superheroapi.com/api/{token}/"
-
+TOTAL_ANIME =  adb.count_documents({})
 
 
 async def get_character():
