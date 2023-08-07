@@ -11,7 +11,7 @@ API_HASH = "add59ab14dbbccf3c92c65ca4477f2fa"  # Your API Hash
 BOT_TOKEN = "6306432952:AAFe2CTLQDY7VVvuY9yRKm0FU7kXTgdAutY"  # Your bot token
 
 ERROR_ID = -1001773407390 #private -- Blue Errors log
-SUPPORT_CHAT = "devslab"
+SUPPORT_CHAT = "JHBots"
 SUPPORT_ID = -1001773407390 #devslab
 
 DOWNLOAD_DIRECTORY = "./"
@@ -20,7 +20,7 @@ DOWNLOAD_DIRECTORY = "./"
 MONGO_DB = "mongodb+srv://ishikki:ishikki143@userinfo.qud86ys.mongodb.net/?retryWrites=true&w=majority"
 MONGO_DB1 = "mongodb+srv://SpyNano:SpyNano@waifubot.igxevb6.mongodb.net/?retryWrites=true&w=majority"
 
-OWNER_ID = [5030730429]
+OWNER_ID = [6198858059]
 
 SUDOLIST = [] #REPORTERS
 SUPPORTLIST = [] #Inspectors
@@ -41,9 +41,9 @@ logging.basicConfig(
     datefmt="[%X]",
 )
 
-LOGGER = logging.getLogger('[ISHIKKI]')
-LOGGER.info("HEROBOT is waking up...")
-LOGGER.info("DEVELOPED by: IShIkkI AKABANE")
+LOGGER = logging.getLogger('[NANO]')
+LOGGER.info("WAIFUBOT is waking up...")
+LOGGER.info("DEVELOPED by: NANO")
 
 
 pbot = Client("hero", API_ID, API_HASH, bot_token=BOT_TOKEN)
