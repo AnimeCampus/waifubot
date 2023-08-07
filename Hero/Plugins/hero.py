@@ -1,10 +1,11 @@
 import asyncio
 import random
 from pyrogram import Client, filters
-from Hero import pbot
+from Hero import pbot, TOTAL_ANIME
 from Hero.database.basicdb import addhero
 from Hero.database.characterdb import get_char
 import requests
+import random
 
 
 token = "803115424842504"
@@ -13,9 +14,11 @@ url = f"https://superheroapi.com/api/{token}/"
 
 
 
-async def get_character(): 
-    random_number = random.randint(1, 731)
-    newurl = url + f"{random_number}" + "/image"
+async def get_character():
+    anime_id = random.randint(1, TOTAL_ANIME)
+    char_type = random.randint(1, 2)
+    char = await get_char(anime_id, char_type)
+
     r = requests.get(newurl)
     char_obj = r.json()
     character_list = []
