@@ -24,7 +24,7 @@ async def add_waifu_characater(client, message):
         return await message.reply_text("format:\n`/addw (waifu id) (anime id) (url) (name)`")
     
     upload_waifu(url, waifu_id, name, anime_id)
-    await message.reply_text(f"Done!!\nID: {waifu_id}\nName: {waifu_name}\nUrl: `{url}`\nAnime ID: {anime_id}")
+    await message.reply_text(f"Done!!\nID: {waifu_id}\nName: {name}\nUrl: `{url}`\nAnime ID: {anime_id}")
 
 
 @Client.on_message(filters.command("addh"))
@@ -40,7 +40,7 @@ async def add_husbando_characater(client, message):
         return await message.reply_text("format:\n`/addh (husbando id) (anime id) (url) (name)`")
     
     upload_husbando(url, waifu_id, name, anime_id)
-    await message.reply_text(f"Done!!\nID: {waifu_id}\nName: {waifu_name}\nUrl: `{url}`\nAnime ID: {anime_id}")
+    await message.reply_text(f"Done!!\nID: {waifu_id}\nName: {name}\nUrl: `{url}`\nAnime ID: {anime_id}")
 
 
 @Client.on_message(filters.command("addanime"))
