@@ -9,7 +9,7 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 @Client.on_message(filters.command("team"))
-async def harem_grp(client, message):
+async def team_grp(client, message):
     user_id = message.from_user.id
     data = info(user_id)
     if data == False:
