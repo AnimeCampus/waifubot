@@ -14,7 +14,7 @@ async def load_start():
     try:
         aa = random.randint(1, 9)
         await pbot.send_message(
-            int(SUPPORT_ID), f"hero is UP!!\nTime taken: 0.{aa}"
+            int(SUPPORT_ID), f"WaifuBot is UP!!\nTime taken: 0.{aa}"
         )
 
         g = await pbot.send_message(ERROR_ID, f"Pyrogram Client Started Successfully!!")
@@ -34,7 +34,7 @@ loop = asyncio.get_event_loop_policy().get_event_loop()
 loop.run_until_complete(load_start())
 
 Client(
-    name="ISHIKKI",
+    name="NANO",
     api_id=API_ID,
     api_hash=API_HASH,
     bot_token=BOT_TOKEN,
