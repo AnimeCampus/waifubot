@@ -17,10 +17,10 @@ def adduser(user_id, heroid, hero_name):
     udb.insert_one(udb_dict)
 
 
-def addhero(user_id, heroid, hero_name):
+def addhero(user_id, heroid, hero_name, anime_id):
     data = udb.find_one({"_id": user_id})
     if data:
-        udb.update_one({"_id": user_id}, {"$push": {"heros": [heroid, hero_name]}})
+        udb.update_one({"_id": user_id}, {"$push": {"heros": [heroid, hero_name, anime_id]}})
     else:
         adduser(user_id, heroid, hero_name)
 
