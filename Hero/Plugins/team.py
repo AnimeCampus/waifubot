@@ -8,7 +8,7 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 
-@Client.on_message(filters.command("team"))
+@pbot.on_message(filters.command("team"))
 async def team_grp(client, message):
     user_id = message.from_user.id
     data = info(user_id)
