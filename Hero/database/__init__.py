@@ -17,6 +17,11 @@ chdb = client["characterdb"]["husbandodb"]
 adb = client["characterdb"]["animedb"]
 
 
-def get_list(db):
-    return [x for x in db.find()]
+def get_list(choose_db):
+    all_char = choose_db.find({})
+    list_char = []
+    for char in all_char:
+        list_char.append(char)
+
+    return list_char
 
