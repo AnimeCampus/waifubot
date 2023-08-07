@@ -7,17 +7,7 @@ import requests
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
-token = "803115424842504"
 
-url = f"https://superheroapi.com/api/{token}/"
-
-
-async def get_character(hero_id): 
-    newurl = url + f"{hero_id}" + "/image"
-    r = requests.get(newurl)
-    char_obj = r.json()
-    name = char_obj["name"]
-    return name
 
 
 @Client.on_message(filters.command("team"))
@@ -25,14 +15,14 @@ async def harem_grp(client, message):
     user_id = message.from_user.id
     data = info(user_id)
     if data == False:
-        await message.reply_text("You havent yet collected any heroes!!")
+        await message.reply_text("You havent yet collected any Character!!")
         return
     
     if len(data) == 0:
-        await message.reply_text("You havent yet collected any heroes!!")
+        await message.reply_text("You havent yet collected any Character!!")
         return
     
-    text = f"Hello {message.from_user.first_name},\n\nYour Heros team:\n"
+    text = f"Hello {message.from_user.first_name},\n\nYour Character's team:\n"
     count = 0
     for hero in data:
         count = count + 1
