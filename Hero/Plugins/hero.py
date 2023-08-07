@@ -17,17 +17,11 @@ url = f"https://superheroapi.com/api/{token}/"
 async def get_character():
     anime_id = random.randint(1, TOTAL_ANIME)
     char_type = random.randint(1, 2)
-    char = await get_char(anime_id, char_type)
-
-    r = requests.get(newurl)
-    char_obj = r.json()
-    character_list = []
-    character_list.append(char_obj["id"])
-    name = char_obj["name"]
-    name = name.lower()
-    character_list.append(name)
-    character_list.append(char_obj["url"])
-    return character_list
+    result, char = await get_char(anime_id, char_type)
+    if result == False:
+        return None
+    else:
+        return char
 
 
 # Dictionary to store message counts for each chat group
@@ -53,13 +47,20 @@ async def send_picture(chat_id, character_url):
 
 async def is_correct_name(chat_id, character_name):
     character_name = character_name.lower()
-    correct_name = active_character[chat_id][1]
-    hero_id = active_character[chat_id][0]
+    char_name = character_name.split(" ")[0]
+
+    correct_name = active_character[chat_id]["name"]
+    correct_name = correct_name.lower()
+
+    char_id = active_character[chat_id]["_id"]
+
     names = correct_name.split(" ")
-    if character_name in names:
-        return True, correct_name, hero_id
+
+    if char_name in names:
+        anime_id = active_character[chat_id]["anime_id"]
+        return True, correct_name, char_id, anime_id
     else:
-        return False, correct_name, hero_id
+        return False, correct_name, char_id, anime_id
 
 
 # Message handler
@@ -69,28 +70,31 @@ async def message_handler(client, message):
 
     # Check if the chat group has an active character to collect
     if chat_id in active_character:
-        # Initialize the message count for the group if not already present
+
         if chat_id not in active_characrter_count:
             active_characrter_count[chat_id] = 0
 
-        # Increment the message count for the group
         active_characrter_count[chat_id] += 1
 
-        # Check if the message count has reached 100
+
         if active_characrter_count[chat_id] % 10 == 0:
-            await client.send_message(chat_id, f"character flew away!!\nCorrect name was {active_character[chat_id][1]}")
+
+            name = active_character[chat_id]["name"]
+            await client.send_message(chat_id, f"character flew away!!\nCorrect name was {name}")
+
             del active_character[chat_id]
             del active_characrter_count[chat_id]
             return 
-          
+
+
         if message.text and message.text.startswith("/collect"):
             user_id = message.from_user.id
             command, character_name = message.text.split(maxsplit=1)
 
-            answer_c, correct_name, hero_id = await is_correct_name(chat_id, character_name)
+            answer_c, correct_name, char_id, anime_id = await is_correct_name(chat_id, character_name)
             
             if answer_c == True:
-                addhero(user_id, hero_id, correct_name)
+                addhero(user_id, char_id, correct_name, anime_id)
                 await pbot.send_message(chat_id, f"Correct!!!!\nYou collected {correct_name}!")
                 del active_character[chat_id]
                 del active_characrter_count[chat_id]
@@ -108,22 +112,17 @@ async def message_handler(client, message):
         # Check if the message count has reached 100
         if message_counts[chat_id] % 10 == 0:
 
-            # Send a message with a picture
+            
             character = await get_character()
-            result = await send_picture(chat_id, character[2])
+            if character == None:
+                return
+            
+
+            # Send a message with a picture
+            result = await send_picture(chat_id, character["img"])
             if result == False:
-                character = await get_character()
-                result = await send_picture(chat_id, character[2])
-                if result == False:
-                    character = await get_character()
-                    result = await send_picture(chat_id, character[2])
-                    if result == False:
-                        pass
-                    else:
-                        active_character[chat_id] = [character[0], character[1], character[2]]
-                else:
-                    active_character[chat_id] = [character[0], character[1], character[2]]
-            else:
-                active_character[chat_id] = [character[0], character[1], character[2]]
+                return
+
+            active_character[chat_id] = [character["_id"], character["name"], character["anime_id"]]
 
             await pbot.send_message(chat_id, text=f"{active_character}")
