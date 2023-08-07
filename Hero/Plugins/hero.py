@@ -14,7 +14,7 @@ TOTAL_ANIME =  adb.count_documents({})
 
 async def get_character():
     anime_id = random.randint(1, TOTAL_ANIME)
-    char_type = random.randint(1, 2)
+    char_type = random.choice([1, 2])
     result, char = await get_char(anime_id, char_type)
     if result == False:
         return None
