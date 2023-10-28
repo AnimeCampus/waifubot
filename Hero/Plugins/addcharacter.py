@@ -10,7 +10,7 @@ def add_pokemon(client, message):
     user_id = message.from_user.id
     
     # Ensure that only authorized users can add Pokemon (replace with your user IDs)
-    authorized_users = [123456, 789012]  # Replace with your user IDs
+    authorized_users = [6299128233]  # Replace with your user IDs
     if user_id not in authorized_users:
         client.send_message(chat_id, "You are not authorized to add Pokemon.")
         return
