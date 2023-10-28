@@ -1,6 +1,6 @@
 # addpoke.py
 
-from pyrogram import Client, filters
+from pyrogram import Client, filters, app
 from Hero.database.database import PokemonDatabase
 
 # Command handler for /addpoke
