@@ -1,10 +1,10 @@
 # addpoke.py
 
-from pyrogram import Client, Filters
+from pyrogram import Client, filters
 from Hero.database.database import PokemonDatabase
 
 # Command handler for /addpoke
-@app.on_message(Filters.command("addpoke"))
+@app.on_message(filters.command("addpoke"))
 def add_pokemon(client, message):
     chat_id = message.chat.id
     user_id = message.from_user.id
