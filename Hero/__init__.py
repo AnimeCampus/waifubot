@@ -8,11 +8,11 @@ from pyrogram import Client
 
 API_ID = 14681826  # Your API ID
 API_HASH = "add59ab14dbbccf3c92c65ca4477f2fa"  # Your API Hash
-BOT_TOKEN = "6126511065:AAHLPF8CuwowgQm9NaYK_vR_caAD_c0tCxg"  # Your bot token
+BOT_TOKEN = "6295293651:AAEfnqNAsRREDExUKAszM8EKzyGzY00PBsQ"  # Your bot token
 
-ERROR_ID = -1001905486162 #private -- Blue Errors log
-SUPPORT_CHAT = "NanosTestingArea"
-SUPPORT_ID = -1001905486162 # Nanos Test Group
+ERROR_ID = -1002058050288 #private -- Blue Errors log
+SUPPORT_CHAT = "BHatsGroup"
+SUPPORT_ID = -1002058050288 # Nanos Test Group
 
 DOWNLOAD_DIRECTORY = "./"
 
