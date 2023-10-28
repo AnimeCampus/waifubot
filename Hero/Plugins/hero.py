@@ -1,10 +1,10 @@
 # start.py
 
-from pyrogram import Client, Filters
+from pyrogram import Client as app, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 # Command handler for /start
-@app.on_message(Filters.command("start"))
+@app.on_message(filters.command("start"))
 def start(client, message):
     chat_id = message.chat.id
     user_id = message.from_user.id
