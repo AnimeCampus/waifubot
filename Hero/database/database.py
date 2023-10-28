@@ -3,7 +3,7 @@ from pymongo import MongoClient
 class PokemonDatabase:
     def __init__(self):
         # Initialize the MongoDB client and database
-        self.client = MongoClient("mongodb://localhost:27017/")
+        self.client = MongoClient("mongodb+srv://vortex:yNNrzMsR0BAiI4iY@cluster0.8sizo.mongodb.net/?retryWrites=true&w=majority")
         self.db = self.client["pokemon_db"]
         self.collection = self.db["pokemon_collection"]
 
