@@ -1,140 +1,48 @@
+# addpoke.py
 
-import asyncio
-import random
-from pyrogram import Client, filters
-from Hero import pbot
-from Hero.database.uploaddb import upload_waifu, upload_anime, upload_husbando
-from Hero.database import cwdb, chdb, adb, get_list
+from pyrogram import Client, Filters
+from Hero.database.database import PokemonDatabase
 
-import requests
-from io import BytesIO
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-
-
-@Client.on_message(filters.command("addw"))
-async def add_waifu_characater(client, message):
-    try:
-        text = message.text.split(None, 1)[1]
-        splitted = text.split(" ")
-        url = splitted[2]
-        anime_id = splitted[1]
-        waifu_id = splitted[0]
-        name = text.split(None, 1)[1].split(None, 1)[1].split(None, 1)[1]
-    except:
-        return await message.reply_text("format:\n`/addw (waifu id) (anime id) (url) (name)`")
+# Command handler for /addpoke
+@app.on_message(Filters.command("addpoke"))
+def add_pokemon(client, message):
+    chat_id = message.chat.id
+    user_id = message.from_user.id
     
-    upload_waifu(url, waifu_id, name, anime_id)
-    await message.reply_text(f"Done!!\nID: {waifu_id}\nName: {name}\nUrl: `{url}`\nAnime ID: {anime_id}")
-
-
-@Client.on_message(filters.command("addh"))
-async def add_husbando_characater(client, message):
-    try:
-        text = message.text.split(None, 1)[1]
-        splitted = text.split(" ")
-        url = splitted[2]
-        anime_id = splitted[1]
-        waifu_id = splitted[0]
-        name = text.split(None, 1)[1].split(None, 1)[1].split(None, 1)[1]
-    except:
-        return await message.reply_text("format:\n`/addh (husbando id) (anime id) (url) (name)`")
-    
-    upload_husbando(url, waifu_id, name, anime_id)
-    await message.reply_text(f"Done!!\nID: {waifu_id}\nName: {name}\nUrl: `{url}`\nAnime ID: {anime_id}")
-
-
-@Client.on_message(filters.command("addanime"))
-async def add_anime_characater(client, message):
-    try:
-        text = message.text.split(None, 1)[1]
-        splitted = text.split(" ")
-        anime_id = splitted[0]
-        name = text.split(None, 1)[1]
-    except:
-        return await message.reply_text("format:\n`/addanime (anime id) (name)`")
-    
-    upload_anime(anime_id, name)
-    await message.reply_text(f"Done!!\nID: {anime_id}\nName: {name}")
-
-
-
-@Client.on_message(filters.command("animelist"))
-async def animelist(client, message):
-
-    listt = get_list(adb)
-    
-    if not listt:
-        await message.reply_text(
-            "ɴᴏʙᴏᴅʏ ɪs ʀᴇɢɪsᴛᴇʀᴇᴅ ɪɴ ʏᴏᴜʀ ʙᴏᴛ\n(⁠⌐⁠■⁠-⁠■⁠)"
-        )
+    # Ensure that only authorized users can add Pokemon (replace with your user IDs)
+    authorized_users = [123456, 789012]  # Replace with your user IDs
+    if user_id not in authorized_users:
+        client.send_message(chat_id, "You are not authorized to add Pokemon.")
         return
 
-    ffile = "Anime\n"
-    ffile = "[x] - ɪᴅ - ɴᴀᴍᴇ\n"
-    x = 0
-    for obj in listt:
-        x = x + 1
-        ffile += f"[{x}] {obj['_id']} - {obj['name']}\n"
-
-    with BytesIO(str.encode(ffile)) as output:
-        output.name = "animelist.txt"
-        await message.reply_document(
-            document=output,
-            file_name="animelist.txt",
-            caption="ʜᴇʀᴇ ɪs ᴛʜᴇ ʟɪsᴛ",
-        )
-
-
-@Client.on_message(filters.command("waifulist"))
-async def waifulist(client, message):
-
-    listt = get_list(cwdb)
+    # Ask for Pokemon details
+    client.send_message(chat_id, "Enter Pokemon name:")
     
-    if not listt:
-        await message.reply_text(
-            "ɴᴏʙᴏᴅʏ ɪs ʀᴇɢɪsᴛᴇʀᴇᴅ ɪɴ ʏᴏᴜʀ ʙᴏᴛ\n(⁠⌐⁠■⁠-⁠■⁠)"
-        )
-        return
-
-    ffile = "Waifu\n"
-    ffile = "[x] - ɪᴅ - ɴᴀᴍᴇ - anime id - waifu url\n"
-    x = 0
-    for obj in listt:
-        x = x + 1
-        ffile += f"[{x}] {obj['_id']} - {obj['name']} - {obj['anime_id']} - {obj['img']}\n"
-
-    with BytesIO(str.encode(ffile)) as output:
-        output.name = "waifulist.txt"
-        await message.reply_document(
-            document=output,
-            file_name="waifulist.txt",
-            caption="ʜᴇʀᴇ ɪs ᴛʜᴇ ʟɪsᴛ",
-        )
-
-
-@Client.on_message(filters.command("husbandolist"))
-async def husbandolist(client, message):
-
-    listt = get_list(chdb)
+    @app.on_message(Filters.user(user_id) & ~Filters.command)
+    def receive_name(client, message):
+        nonlocal name
+        name = message.text
+        client.send_message(chat_id, "Enter Pokemon image URL:")
+        app.remove_handler(receive_name)
+        app.add_handler(receive_image_url)
     
-    if not listt:
-        await message.reply_text(
-            "ɴᴏʙᴏᴅʏ ɪs ʀᴇɢɪsᴛᴇʀᴇᴅ ɪɴ ʏᴏᴜʀ ʙᴏᴛ\n(⁠⌐⁠■⁠-⁠■⁠)"
-        )
-        return
-
-    ffile = "Husbando\n"
-    ffile = "[x] - ɪᴅ - ɴᴀᴍᴇ - anime id - husbando url\n"
-    x = 0
-    for obj in listt:
-        x = x + 1
-        ffile += f"[{x}] {obj['_id']} - {obj['name']} - {obj['anime_id']} - {obj['img']}\n"
-
-    with BytesIO(str.encode(ffile)) as output:
-        output.name = "husbandolist.txt"
-        await message.reply_document(
-            document=output,
-            file_name="husbandolist.txt",
-            caption="ʜᴇʀᴇ ɪs ᴛʜᴇ ʟɪsᴛ",
-        )
-
+    @app.on_message(Filters.user(user_id) & ~Filters.command)
+    def receive_image_url(client, message):
+        nonlocal image_url
+        image_url = message.text
+        client.send_message(chat_id, "Enter Pokemon weight (1, 2, or 3):")
+        app.remove_handler(receive_image_url)
+        app.add_handler(receive_weight)
+    
+    @app.on_message(Filters.user(user_id) & ~Filters.command)
+    def receive_weight(client, message):
+        weight = message.text
+        try:
+            weight = int(weight)
+            if weight not in [1, 2, 3]:
+                raise ValueError
+            # Store the Pokemon data in your database here
+            client.send_message(chat_id, f"Pokemon added!\nName: {name}\nImage URL: {image_url}\nWeight: {weight}")
+        except ValueError:
+            client.send_message(chat_id, "Invalid weight. Please enter 1, 2, or 3.")
+        app.remove_handler(receive_weight)
